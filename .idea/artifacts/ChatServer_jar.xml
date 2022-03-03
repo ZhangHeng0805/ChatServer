@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ChatServer:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ChatServer_jar</output-path>
+    <root id="archive" name="ChatServer.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="ChatServer" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/gson-2.8.6.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/netty-all-4.1.50.Final.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
