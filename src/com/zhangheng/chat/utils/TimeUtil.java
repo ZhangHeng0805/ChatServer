@@ -8,7 +8,7 @@ import java.util.Date;
 public class TimeUtil {
     //格式化时间
     public static String time(Date date){
-        String strDateFormat = "yyyy-MM-dd HH:mm:ss";
+        String strDateFormat = "yyyy-MM-dd HH:mm:ss:SSS";
         SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
         return sdf.format(date);
     }

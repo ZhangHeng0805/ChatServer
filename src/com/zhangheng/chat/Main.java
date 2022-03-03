@@ -1,6 +1,7 @@
 package com.zhangheng.chat;
 
 import com.zhangheng.chat.ShopChat.ChatServer;
+import com.zhangheng.chat.utils.Message;
 
 import java.util.Scanner;
 
@@ -12,6 +13,7 @@ public class Main {
         try {
             int nextInt = scanner.nextInt();
             ChatServer chatServer = new ChatServer(nextInt);
+            Message.printLog("聊天服务器启动中。。。");
             chatServer.run();
         }catch (Exception e){
             e.printStackTrace();

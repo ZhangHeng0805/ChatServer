@@ -9,6 +9,7 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
+import java.net.InetSocketAddress;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -31,7 +32,10 @@ class ChatServerHandler extends SimpleChannelInboundHandler<String> {
         chatInfo.setMsgType(2);
         chatInfo.setChatType(1);
         chatInfo.setTime(sdf.format(new Date()));
-        String message="<"+channel.remoteAddress().toString().replace("/127.0.0.1:","")
+        InetSocketAddress ipSocket = (InetSocketAddress)channel.remoteAddress();
+//        String clientIp = ipSocket.getAddress().getHostAddress();
+        String clientIp = channel.remoteAddress().toString();
+        String message="<"+clientIp.replace("/127.0.0.1:","")
                 +">上线了\n当前在线人数："+channelGroup.size();
         chatInfo.setMessage(message);
         String json = gson.toJson(chatInfo);
@@ -41,7 +45,7 @@ class ChatServerHandler extends SimpleChannelInboundHandler<String> {
         channelGroup.writeAndFlush(json);
 
         Message.printLog("购物APP聊天服务器--[客户端]<"
-                +channel.remoteAddress().toString().replace("/127.0.0.1:","")
+                +clientIp.replace("/127.0.0.1:","")
                 +">上线了 \t 当前在线人数："+channelGroup.size());
 
     }
@@ -61,7 +65,10 @@ class ChatServerHandler extends SimpleChannelInboundHandler<String> {
         chatInfo.setMsgType(2);
         chatInfo.setChatType(1);
         chatInfo.setTime(sdf.format(new Date()));
-        String message="<"+channel.remoteAddress().toString().replace("/127.0.0.1:","")
+        InetSocketAddress ipSocket = (InetSocketAddress)channel.remoteAddress();
+//        String clientIp = ipSocket.getAddress().getHostAddress();
+        String clientIp = channel.remoteAddress().toString();
+        String message="<"+clientIp.replace("/127.0.0.1:","")
                 +">下线了\n当前在线人数："+channelGroup.size();
         chatInfo.setMessage(message);
         String json = gson.toJson(chatInfo);
@@ -69,7 +76,7 @@ class ChatServerHandler extends SimpleChannelInboundHandler<String> {
         channelGroup.writeAndFlush(json);
 
         Message.printLog("购物APP聊天服务器--[客户端]<"
-                +channel.remoteAddress().toString().replace("/127.0.0.1:","")
+                +clientIp.replace("/127.0.0.1:","")
                 +">下线了 \t 当前在线人数："+channelGroup.size());
     }
 
@@ -87,7 +94,7 @@ class ChatServerHandler extends SimpleChannelInboundHandler<String> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, String s) throws Exception {
         ChatInfo chat = new Gson().fromJson(s, ChatInfo.class);
-        if (chat.getFrom().length()==11&&chat.getMessage().equals("系统0805:我上线了")){
+        if (chat.getFrom()!=null&&chat.getFrom().length()==11&&chat.getMessage().equals("系统0805:我上线了")){
             Gson gson = new Gson();
             ChatInfo chatInfo = new ChatInfo();
             chatInfo.setFrom("1");
@@ -104,7 +111,7 @@ class ChatServerHandler extends SimpleChannelInboundHandler<String> {
                 ch.writeAndFlush(s1);
             }
             Message.printLog(message);
-        }else if (chat.getFrom().length()==11&&chat.getMessage().equals("系统0805:我下线了")){
+        }else if (chat.getFrom()!=null&&chat.getFrom().length()==11&&chat.getMessage().equals("系统0805:我下线了")){
             Gson gson = new Gson();
             ChatInfo chatInfo = new ChatInfo();
             chatInfo.setFrom("1");
