@@ -3,6 +3,7 @@ package com.zhangheng.chat.ShopChat;
 
 
 import com.zhangheng.chat.utils.Message;
+import com.zhangheng.log.printLog.Log;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -18,7 +19,7 @@ import java.util.logging.Logger;
 public class ChatServer {
 
     private int port;//端口号
-    private int maxnum=100;//默认最大连接数
+    private int maxnum=10000;//默认最大连接数
 
 
     public ChatServer(int port) {
@@ -52,11 +53,11 @@ public class ChatServer {
             Channel channel = cf.channel();
             String s = channel.localAddress().toString();
 //            System.out.println("聊天服务端启动成功！端口："+s.substring(s.lastIndexOf(":")));
-            Message.printLog("购物软件聊天服务器启动成功！聊天服务器本地端口"+s.substring(s.lastIndexOf(":")));
+            Log.Info("购物软件聊天服务器启动成功！聊天服务器本地端口"+s.substring(s.lastIndexOf(":")));
             cf.channel().closeFuture().sync();
         }catch (Exception e){
 //            System.out.println("服务端错误："+e.getMessage());
-            Message.printLog("购物软件聊天服务端错误："+e.getMessage());
+            Log.Error("购物软件聊天服务端错误："+e.getMessage());
         }finally {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();

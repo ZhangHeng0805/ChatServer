@@ -1,6 +1,7 @@
 package com.zhangheng.chat;
 
 import com.zhangheng.chat.utils.Message;
+import com.zhangheng.log.printLog.Log;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -35,7 +36,7 @@ class ChatServerHandler extends SimpleChannelInboundHandler<String> {
 //        System.out.println(sdf.format(new Date())+"--[客户端]<"
 //                +channel.remoteAddress().toString().replace("/127.0.0.1:","")
 //                +">上线了\n当前在线人数："+channelGroup.size()+"\n");
-        Message.printLog("聊天服务器--[客户端]<"
+        Log.Info("聊天服务器--[客户端]<"
                 +channel.remoteAddress().toString().replace("/127.0.0.1:","")
                 +">上线了 \t 当前在线人数："+channelGroup.size());
 
@@ -65,7 +66,7 @@ class ChatServerHandler extends SimpleChannelInboundHandler<String> {
 //        System.out.println(sdf.format(new Date())+"--[客户端]<"
 //                +channel.remoteAddress().toString().replace("/127.0.0.1:","")
 //                +">下线了\n当前在线人数："+channelGroup.size()+"\n");
-        Message.printLog("聊天服务器--[客户端]<"
+        Log.Info("聊天服务器--[客户端]<"
                 +channel.remoteAddress().toString().replace("/127.0.0.1:","")
                 +">下线了 \t 当前在线人数："+channelGroup.size());
     }
@@ -75,10 +76,10 @@ class ChatServerHandler extends SimpleChannelInboundHandler<String> {
 //        super.exceptionCaught(ctx, cause);
 //        cause.printStackTrace();
         if (cause.getMessage().indexOf("远程主机强迫关闭了一个现有的连接")>=0){
-
+            Log.Error("聊天服务器错误："+ cause.getMessage());
         }else {
 //            System.out.println("服务器错误："+ cause.getMessage());
-            Message.printLog("聊天服务器错误："+ cause.getMessage());
+            Log.Error("聊天服务器错误："+ cause.getMessage());
         }
         ctx.close();
     }

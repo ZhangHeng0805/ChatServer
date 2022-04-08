@@ -1,5 +1,6 @@
 package com.zhangheng.chat;
 
+import com.zhangheng.log.printLog.Log;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -39,7 +40,7 @@ public class ChatClient {
 
             ChannelFuture cf = bootstrap.connect(ip, port).sync();
             Channel channel = cf.channel();
-            System.out.println("=====客户端"+channel.localAddress()+" 启动成功=====\n");
+            Log.Info("=====客户端"+channel.localAddress()+" 启动成功=====\n");
             //客户端输入信息，创建一个扫描器
             Scanner scanner=new Scanner(System.in);
             while (scanner.hasNextLine()){
@@ -48,9 +49,9 @@ public class ChatClient {
             }
         } catch (Exception e) {
             if (e.getMessage().startsWith("Connection refused")){
-                System.out.println("连接拒绝："+e.getMessage());
+                Log.Error("连接拒绝："+e.getMessage());
             }else {
-                System.out.println("错误："+e.getMessage());
+                Log.Error("错误："+e.getMessage());
             }
         } finally {
             group.shutdownGracefully();
